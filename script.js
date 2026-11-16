@@ -10,7 +10,7 @@
 
   function resize() {
     dpr = window.devicePixelRatio || 1;
-    W = window.innerWidth; H = window.innerHeight;
+    W = canvas.clientWidth || window.innerWidth; H = canvas.clientHeight || window.innerHeight;
     canvas.width = W * dpr; canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.font = FS + 'px "Courier New", monospace';
@@ -35,6 +35,8 @@
   document.addEventListener('mouseleave', function () { active = false; mouse.x = mouse.y = smooth.x = smooth.y = -9999; });
   window.addEventListener('wheel', function (e) { e.preventDefault(); }, { passive: false });
   window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', function () { setTimeout(resize, 200); });
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', resize);
 
   function sm(t) { return t * t * (3 - 2 * t); }
 
